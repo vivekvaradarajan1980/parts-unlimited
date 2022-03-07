@@ -1,6 +1,7 @@
 package org.asi.partsunlimited.controllers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asi.partsunlimited.Product;
 import org.asi.partsunlimited.services.ProductService;
 import org.junit.jupiter.api.Test;
@@ -30,9 +31,11 @@ class ProductControllerTests {
 
     @Test
     void shouldSaveProductWhenANewProductIsAdded() throws Exception {
-        when(productService.addProduct("some-product")).thenReturn(new Product(1L, "some-product", 0));
+        Product testProduct = new Product(1L, "some-product", 0);
+        when(productService.addProduct(testProduct)).thenReturn(testProduct);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        this.mockMvc.perform(post("/products").contentType(MediaType.TEXT_PLAIN).content("some-product"))
+        this.mockMvc.perform(post("/products").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(testProduct)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("some-product"))
                 .andExpect(jsonPath("$.quantity").value("0"));

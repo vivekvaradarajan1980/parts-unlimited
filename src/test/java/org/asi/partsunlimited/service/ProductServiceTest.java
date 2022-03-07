@@ -42,7 +42,7 @@ class ProductServiceTest {
     void shouldCreateANewProductWithQuantityZero(){
         Product productToSave = new Product("new-product", 0);
 
-        productService.addProduct("new-product");
+        productService.addProduct(productToSave);
 
         verify(productRepository).save(productToSave);
     }

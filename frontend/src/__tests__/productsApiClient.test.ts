@@ -1,5 +1,5 @@
 import nock from 'nock';
-import {createProduct, getProducts} from "../productsApiClient";
+import {createProduct, getProducts,updateProduct} from "../productsApiClient";
 
 describe('productsApiClient', () => {
     describe('getProducts', () => {
@@ -17,16 +17,34 @@ describe('productsApiClient', () => {
         it('should make a POST request to create a product', async () => {
             const scope = nock('http://localhost', {
                 reqheaders: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'application/json'
                 }
-            }).post('/products', 'my-new-product')
+            })
+                .post('/products', {name: "my-new-product", quantity: 0})
                 .reply(200, {name: "my-new-product", quantity: 0});
 
-            const response = await createProduct("my-new-product");
+            const response = await createProduct("my-new-product",0);
 
             expect(scope.isDone()).toEqual(true);
             expect(response.name).toEqual("my-new-product");
             expect(response.quantity).toEqual(0);
         });
+
+        it('should make a UPDATE request to update a product', async () => {
+            const scope = nock('http://localhost', {
+                reqheaders: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .patch('/products/1', {id:"",name: "", quantity: 1})
+                .reply(204);
+
+            const response = await updateProduct(1,1);
+
+            expect(scope.isDone()).toEqual(true);
+           // expect(response.name).toEqual("my-new-product");
+           // expect(response.quantity).toEqual(1);
+        });
     });
+
 });
