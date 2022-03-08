@@ -33,7 +33,7 @@ const App = () => {
 
     useEffect(() => {
         getProducts().then(data=>setProducts([...data]));
-    }, [products]);
+    }, []);
 
     const increaseProductInventory = (event: React.ChangeEvent<HTMLSelectElement> , id:number) =>  {
         updateProduct(quantity, id).then(() => {
@@ -90,8 +90,8 @@ const App = () => {
                             <input name="quantity" value={quantity} type="number"  required onChange={setQuanityFromInput}/>
                         </label>
                         <Box>
-                            <select value={defaultselect} onChange={(event)=>{increaseProductInventory(event,parseInt(event.target.value));
-                            setDefaultSelect(0);}}>
+                            <select aria-label="increase inventory" value={defaultselect} onChange={(event)=>{increaseProductInventory(event,parseInt(event.target.value));
+                           }}>
                                 <option>Increase inventory</option>
                                 {products.map((product, index) => (
                                     <option key={index} value={product.id}> {product.name } </option>
@@ -101,7 +101,7 @@ const App = () => {
                         </Box>
                         <Box>
                             <select value={defaultselect} onChange={(event)=>{decreaseProductInventory(event,parseInt(event.target.value));
-                                setDefaultSelect(0);}}>
+                               }}>
                                 <option>Decrease inventory</option>
                                 {products.map((product, index) => (
                                     <option key={index} value={product.id}> {product.name } </option>
@@ -116,8 +116,7 @@ const App = () => {
                     <h2>Quantity</h2>
                     {products.map((product, index) => (
                         <div key={index}>{product.quantity } <button name={product.name}>
-                        Update inventory</button><button onClick={(event)=>decreaseProductInventory(event,product.id)} name={"order "+product.name} >
-                            Order</button></div>
+                        Update inventory</div>
                     ))}
                 </Box>
 

@@ -30,21 +30,17 @@ describe('productsApiClient', () => {
             expect(response.quantity).toEqual(0);
         });
 
-        it('should make a UPDATE request to update a product', async () => {
-            const scope = nock('http://localhost', {
-                reqheaders: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .patch('/products/1', {id:"",name: "", quantity: 1})
-                .reply(204);
+        it('should make a PATCH request to update a product', async () =>{
+            const scopes = nock('http://localhost', {reqheaders: {'Content-Type': 'application/json'}})
+                .patch('/products/1',{id:"",name:"", quantity: 2})
+                .reply(204,{id:"",name:"first-product", quantity: 2});
 
-            const response = await updateProduct(1,1);
+            const response = await updateProduct(2,1);
 
-            expect(scope.isDone()).toEqual(true);
-           // expect(response.name).toEqual("my-new-product");
-           // expect(response.quantity).toEqual(1);
-        });
+            expect(scopes.isDone()).toEqual(true);
+            expect(response.name).toEqual("first-product");
+            expect(response.quantity).toEqual(2);
+        })
     });
 
 });

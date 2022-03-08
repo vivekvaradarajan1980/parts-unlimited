@@ -1,13 +1,16 @@
 import axios from "axios";
 import {Product} from "./product";
 
+
 export async function updateProduct(quantity: number, id: number) : Promise<Product>{
 
 
+  const productToAdd={name:"",quantity:quantity,id:""}
 
-  axios.patch<Product>("/products"+"/"+id, {id:"",quantity:quantity, name:""},  {headers: {"Content-Type": "application/json" }})
-      .then((data)=>{return data})
-      .catch(err=>alert(err.response.data));
+  return (await axios.patch<Product>("/products/"+id, productToAdd, {headers:{"Content-Type" : "application/json"}})).data
+  //axios.patch<Product>("/products"+"/"+id, {id:"",quantity:quantity, name:""},  {headers: {"Content-Type": "application/json" }})
+    //  .then((data)=>{return data})
+      //.catch(err=>alert(err.response.data));
 
 }
 

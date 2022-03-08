@@ -83,11 +83,11 @@ describe("inventory", () => {
       expect(await screen.findAllByText("shiny new product")).toBeTruthy();
       userEvent.type(screen.getByRole("spinbutton",{name:/Quantity/i}),"4");
 
-      expect(screen.getAllByRole('option',{name:/shiny new product/})[0]).toBeInTheDocument();
+      userEvent.selectOptions(screen.getByRole('combobox',{name:/increase inventory/i}),screen.getAllByRole('option', {name:/shiny new product/i})[0]);
 
-   ///  expect(mockUpdateProduct).toHaveBeenCalledWith(4,1);
+      expect(mockUpdateProduct).toHaveBeenCalledWith(4,1);
 
-     // expect(screen.getByText("4")).toBeInTheDocument();
+      expect(screen.getByText("4")).toBeInTheDocument();
 
     });
   });
