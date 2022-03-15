@@ -3,6 +3,7 @@ import {createProduct, getProducts, updateProduct} from "./productsApiClient";
 import {Box, Checkbox, Container} from "@mui/material";
 import {Product} from "./product";
 
+
 const App = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [productName, setProductName] = useState<string>("");
@@ -67,6 +68,7 @@ const App = () => {
 
     return (
         <Container sx={{mx: 1, my: 1}}>
+
             <h1>Parts Unlimited Inventory</h1>
             <Box display='flex' flexDirection='row'>
                 <Box>
@@ -115,8 +117,7 @@ const App = () => {
                 <Box>
                     <h2>Quantity</h2>
                     {products.map((product, index) => (
-                        <div key={index}>{product.quantity } <button name={product.name}>
-                        Update inventory</div>
+                        <div key={index}>{product.quantity }</div>
                     ))}
                 </Box>
 

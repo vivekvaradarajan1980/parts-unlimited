@@ -2,6 +2,7 @@ package org.asi.partsunlimited.service;
 
 import org.asi.partsunlimited.Product;
 import org.asi.partsunlimited.repositories.ProductRepository;
+import org.asi.partsunlimited.services.OrderingExcessException;
 import org.asi.partsunlimited.services.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,5 +47,19 @@ class ProductServiceTest {
         productService.addProduct(productToSave);
 
         verify(productRepository).save(productToSave);
+    }
+
+    @Test()
+    void shouldThrowExceptionWhenOrderingMoreThanInventory() {
+
+        assertThrows(OrderingExcessException.class, () -> {
+            Product productToSave = new Product(1L,"new-product", 5);
+
+            when(productRepository.getById(1L)).thenReturn(productToSave);
+            var prod=productService.updateQuantity(-10,1L);
+            System.out.println("----------------"+prod.getQuantity());
+
+        });
+
     }
 }

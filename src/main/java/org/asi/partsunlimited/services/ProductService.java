@@ -21,14 +21,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product updateQuantity(Integer quantity, Long id) throws Exception {
+    public Product updateQuantity(Integer quantity, Long id) {
         var prod = productRepository.getById(id);
         prod.setQuantity(prod.getQuantity()+quantity);
 
         prod=productRepository.save(prod);
 
         if(prod.getQuantity()<0)
-            throw new Exception("you asking too much");
+            throw new OrderingExcessException("you asking too much");
         else
             return prod;
 
